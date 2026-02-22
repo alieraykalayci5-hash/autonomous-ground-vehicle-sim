@@ -86,6 +86,27 @@ build CMakeFiles/agv_sim.dir/src/sim/tracking/alpha_beta_tracker.cpp.obj: CXX_CO
   OBJECT_FILE_DIR = CMakeFiles\agv_sim.dir\src\sim\tracking
   TARGET_SUPPORT_DIR = CMakeFiles\agv_sim.dir
 
+build CMakeFiles/agv_sim.dir/src/sim/sensors/radar2d.cpp.obj: CXX_COMPILER__agv_sim_unscanned_ C$:/Users/AliEray/Desktop/Staj-Proje/autonomous-ground-vehicle-sim/src/sim/sensors/radar2d.cpp || cmake_object_order_depends_target_agv_sim
+  DEP_FILE = CMakeFiles\agv_sim.dir\src\sim\sensors\radar2d.cpp.obj.d
+  FLAGS = -std=c++17 -Wall -Wextra -Wpedantic
+  OBJECT_DIR = CMakeFiles\agv_sim.dir
+  OBJECT_FILE_DIR = CMakeFiles\agv_sim.dir\src\sim\sensors
+  TARGET_SUPPORT_DIR = CMakeFiles\agv_sim.dir
+
+build CMakeFiles/agv_sim.dir/src/sim/sensors/gps.cpp.obj: CXX_COMPILER__agv_sim_unscanned_ C$:/Users/AliEray/Desktop/Staj-Proje/autonomous-ground-vehicle-sim/src/sim/sensors/gps.cpp || cmake_object_order_depends_target_agv_sim
+  DEP_FILE = CMakeFiles\agv_sim.dir\src\sim\sensors\gps.cpp.obj.d
+  FLAGS = -std=c++17 -Wall -Wextra -Wpedantic
+  OBJECT_DIR = CMakeFiles\agv_sim.dir
+  OBJECT_FILE_DIR = CMakeFiles\agv_sim.dir\src\sim\sensors
+  TARGET_SUPPORT_DIR = CMakeFiles\agv_sim.dir
+
+build CMakeFiles/agv_sim.dir/src/sim/sensors/lidar2d.cpp.obj: CXX_COMPILER__agv_sim_unscanned_ C$:/Users/AliEray/Desktop/Staj-Proje/autonomous-ground-vehicle-sim/src/sim/sensors/lidar2d.cpp || cmake_object_order_depends_target_agv_sim
+  DEP_FILE = CMakeFiles\agv_sim.dir\src\sim\sensors\lidar2d.cpp.obj.d
+  FLAGS = -std=c++17 -Wall -Wextra -Wpedantic
+  OBJECT_DIR = CMakeFiles\agv_sim.dir
+  OBJECT_FILE_DIR = CMakeFiles\agv_sim.dir\src\sim\sensors
+  TARGET_SUPPORT_DIR = CMakeFiles\agv_sim.dir
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target agv_sim
@@ -94,7 +115,7 @@ build CMakeFiles/agv_sim.dir/src/sim/tracking/alpha_beta_tracker.cpp.obj: CXX_CO
 #############################################
 # Link the executable agv_sim.exe
 
-build agv_sim.exe: CXX_EXECUTABLE_LINKER__agv_sim_ CMakeFiles/agv_sim.dir/src/main.cpp.obj CMakeFiles/agv_sim.dir/src/sim/world/grid_map.cpp.obj CMakeFiles/agv_sim.dir/src/sim/vehicle/kinematic_bicycle.cpp.obj CMakeFiles/agv_sim.dir/src/sim/planning/astar.cpp.obj CMakeFiles/agv_sim.dir/src/sim/control/pure_pursuit.cpp.obj CMakeFiles/agv_sim.dir/src/sim/tracking/alpha_beta_tracker.cpp.obj
+build agv_sim.exe: CXX_EXECUTABLE_LINKER__agv_sim_ CMakeFiles/agv_sim.dir/src/main.cpp.obj CMakeFiles/agv_sim.dir/src/sim/world/grid_map.cpp.obj CMakeFiles/agv_sim.dir/src/sim/vehicle/kinematic_bicycle.cpp.obj CMakeFiles/agv_sim.dir/src/sim/planning/astar.cpp.obj CMakeFiles/agv_sim.dir/src/sim/control/pure_pursuit.cpp.obj CMakeFiles/agv_sim.dir/src/sim/tracking/alpha_beta_tracker.cpp.obj CMakeFiles/agv_sim.dir/src/sim/sensors/radar2d.cpp.obj CMakeFiles/agv_sim.dir/src/sim/sensors/gps.cpp.obj CMakeFiles/agv_sim.dir/src/sim/sensors/lidar2d.cpp.obj
   LINK_LIBRARIES = -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\agv_sim.dir
   POST_BUILD = cd .

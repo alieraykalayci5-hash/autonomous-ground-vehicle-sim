@@ -1,8 +1,11 @@
 # ninja log v7
-23	751	7934535503938481	CMakeFiles/agv_sim.dir/src/main.cpp.obj	7122f1858069e275
-751	872	7934535511225911	agv_sim.exe	b92c5ae0adec787e
+25	618	7934647569403890	CMakeFiles/agv_sim.dir/src/main.cpp.obj	7122f1858069e275
+618	728	7934647575335516	agv_sim.exe	d1f53676db440d84
 33	159	7934532387636279	CMakeFiles/agv_sim.dir/src/sim/tracking/alpha_beta_tracker.cpp.obj	d598580d90d5e16c
 22	160	7934532387526464	CMakeFiles/agv_sim.dir/src/sim/vehicle/kinematic_bicycle.cpp.obj	d6cc90d1a83e2197
 29	231	7934532387602013	CMakeFiles/agv_sim.dir/src/sim/control/pure_pursuit.cpp.obj	82cc4ed6f92ca91e
 16	328	7934532387454445	CMakeFiles/agv_sim.dir/src/sim/world/grid_map.cpp.obj	4f5bcf0694fae884
 25	419	7934532387547791	CMakeFiles/agv_sim.dir/src/sim/planning/astar.cpp.obj	2be42e634c958229
+21	173	7934562487504085	CMakeFiles/agv_sim.dir/src/sim/sensors/radar2d.cpp.obj	2db9fc27600a19f4
+24	161	7934562487529791	CMakeFiles/agv_sim.dir/src/sim/sensors/gps.cpp.obj	aad944b03f60b319
+27	240	7934562487561632	CMakeFiles/agv_sim.dir/src/sim/sensors/lidar2d.cpp.obj	5e8825f5c324bf37

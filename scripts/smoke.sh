@@ -1,48 +1,59 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-cd "$(dirname "$0")/.."
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+cd "$ROOT"
 
+# Build (always deterministic for a given compiler/toolchain)
 cmake -S . -B build -G Ninja
 cmake --build build -j
 
-run_and_get_hash() {
-  local outdir="$1"
-  shift
-  mkdir -p "$outdir"
-  ./build/agv_sim --out "$outdir" "$@" 2> "$outdir/stderr.txt" 1>/dev/null
-  grep "FNV1A64=" "$outdir/stderr.txt" | sed 's/.*FNV1A64=//'
-}
+EXE="./build/agv_sim"
 
-mkdir -p out_smoke
+mkdir -p out_smoke_static out_smoke_moving out_smoke_replan
 
-H1=$(run_and_get_hash out_smoke/static --mode static --seed 123 --steps 900 --dt 0.02 --hash 1)
-H2=$(run_and_get_hash out_smoke/moving --mode moving --seed 123 --steps 900 --dt 0.02 --noise_pos 2.0 --hash 1)
-H3=$(run_and_get_hash out_smoke/replan --mode replan_demo --seed 123 --steps 900 --dt 0.02 --hash 1)
+# Run 3 canonical scenarios
+STATIC_HASH="$($EXE --mode static --seed 123 --steps 1200 --dt 0.02 --out out_smoke_static --hash 1 2>&1 | tail -n 1 | sed 's/\r//')"
+MOVING_HASH="$($EXE --mode moving --seed 123 --steps 1200 --dt 0.02 --noise_pos 2.0 --p_detect 1.0 --out out_smoke_moving --hash 1 2>&1 | tail -n 1 | sed 's/\r//')"
+REPLAN_HASH="$($EXE --mode replan_demo --seed 123 --dt 0.02 --out out_smoke_replan --hash 1 2>&1 | tail -n 1 | sed 's/\r//')"
 
-echo "[SMOKE] static  = $H1"
-echo "[SMOKE] moving  = $H2"
-echo "[SMOKE] replan  = $H3"
+echo "[SMOKE] static = ${STATIC_HASH#FNV1A64=}"
+echo "[SMOKE] moving = ${MOVING_HASH#FNV1A64=}"
+echo "[SMOKE] replan = ${REPLAN_HASH#FNV1A64=}"
 
-if [[ ! -f out_smoke/expected.txt ]]; then
-  echo "$H1" > out_smoke/expected.txt
-  echo "$H2" >> out_smoke/expected.txt
-  echo "$H3" >> out_smoke/expected.txt
+EXPECTED_FILE="scripts/expected.txt"
+
+if [[ ! -f "$EXPECTED_FILE" ]]; then
+  cat > "$EXPECTED_FILE" <<EOF
+static=${STATIC_HASH#FNV1A64=}
+moving=${MOVING_HASH#FNV1A64=}
+replan=${REPLAN_HASH#FNV1A64=}
+EOF
   echo "[SMOKE] expected.txt created (first run). Re-run smoke to verify determinism."
   exit 0
 fi
 
-E1=$(sed -n '1p' out_smoke/expected.txt)
-E2=$(sed -n '2p' out_smoke/expected.txt)
-E3=$(sed -n '3p' out_smoke/expected.txt)
+# Parse expected
+EXP_STATIC="$(grep '^static=' "$EXPECTED_FILE" | cut -d= -f2 | tr -d '\r')"
+EXP_MOVING="$(grep '^moving=' "$EXPECTED_FILE" | cut -d= -f2 | tr -d '\r')"
+EXP_REPLAN="$(grep '^replan=' "$EXPECTED_FILE" | cut -d= -f2 | tr -d '\r')"
 
-echo "[SMOKE] expected static = $E1"
-echo "[SMOKE] expected moving = $E2"
-echo "[SMOKE] expected replan = $E3"
+GOT_STATIC="${STATIC_HASH#FNV1A64=}"
+GOT_MOVING="${MOVING_HASH#FNV1A64=}"
+GOT_REPLAN="${REPLAN_HASH#FNV1A64=}"
 
-if [[ "$H1" != "$E1" || "$H2" != "$E2" || "$H3" != "$E3" ]]; then
-  echo "[SMOKE] FAIL"
-  exit 2
+echo "[SMOKE] expected static = $EXP_STATIC"
+echo "[SMOKE] expected moving = $EXP_MOVING"
+echo "[SMOKE] expected replan = $EXP_REPLAN"
+
+FAIL=0
+if [[ "$GOT_STATIC" != "$EXP_STATIC" ]]; then echo "[SMOKE] FAIL static: got=$GOT_STATIC"; FAIL=1; fi
+if [[ "$GOT_MOVING" != "$EXP_MOVING" ]]; then echo "[SMOKE] FAIL moving: got=$GOT_MOVING"; FAIL=1; fi
+if [[ "$GOT_REPLAN" != "$EXP_REPLAN" ]]; then echo "[SMOKE] FAIL replan: got=$GOT_REPLAN"; FAIL=1; fi
+
+if [[ "$FAIL" -ne 0 ]]; then
+  echo "[SMOKE] FAIL. If you intentionally changed behavior/output, delete scripts/expected.txt and re-run smoke to re-baseline."
+  exit 1
 fi
 
 echo "[SMOKE] PASS"
