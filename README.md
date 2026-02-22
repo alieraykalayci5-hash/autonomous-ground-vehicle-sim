@@ -1,5 +1,12 @@
 # Autonomous Ground Vehicle Simulation (C++17)
 
+## Demo Output
+
+### Replanning Door-Passage Scenario
+
+![Trajectory](docs/traj.png)
+![Speed](docs/speed.png)
+
 Deterministic 2D autonomous ground vehicle simulation in modern C++ integrating:
 
 - Grid-based world model
